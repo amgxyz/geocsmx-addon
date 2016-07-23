@@ -3,8 +3,8 @@
  * The Geo Mashup Custom class. Adds custom fucntionality
  */
 
-if ( !class_exists( 'GeoMashupCustom' ) ) {
-class GeoMashupCustom {
+if ( !class_exists( 'GsxGeoMashupCustom' ) ) {
+class GsxGeoMashupCustom {
     var $files = array();
     var $found_files;
     var $dir_path;
@@ -15,7 +15,7 @@ class GeoMashupCustom {
     /**
      * PHP4 Constructor
      */
-    function GeoMashupCustom() {
+    function GsxGeoMashupCustom() {
 
         // Initialize members
         $this->dir_path = dirname( __FILE__ );
@@ -23,7 +23,7 @@ class GeoMashupCustom {
         $plugin_name = substr( $this->basename, 0, strpos( $this->basename, '/', 1 ) );
         $dir_name = substr( $this->basename, 0, strpos( $this->basename, '/', strlen($plugin_name)+1 ) );
         $this->url_path = trailingslashit( WP_PLUGIN_URL ) . $dir_name;
-        load_plugin_textdomain( 'GeoMashupCustom', 'wp-content/plugins/'.$plugin_name, $plugin_name );
+        load_plugin_textdomain( 'GsxGeoMashupCustom', 'wp-content/plugins/'.$plugin_name, $plugin_name );
         
         // Inventory custom files
         if ( $dir_handle = @ opendir( $this->dir_path ) ) {
@@ -36,7 +36,7 @@ class GeoMashupCustom {
         }
 
         // Scan Geo Mashup after it has been loaded
-        add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+        add_action( 'gsx_plugins_loaded', array( $this, 'gsx_plugins_loaded' ) );
 
         // Output messages
         add_action( 'after_plugin_row_' . $this->basename, array( $this, 'after_plugin_row' ), 10, 2 );
@@ -45,16 +45,16 @@ class GeoMashupCustom {
     /**
      * Once all plugins are loaded, we can examine Geo Mashup.
      */
-    function plugins_loaded() {
+    function gsx_plugins_loaded() {
         if ( defined( 'GEO_MASHUP_DIR_PATH' ) ) {
             // Check version
             if ( GEO_MASHUP_VERSION <= '1.2.4' ) {
-                $this->warnings .= __( 'Custom files can be stored safely in this plugin folder, but will only be used by versions of Geo Mashup later than 1.2.4.', 'GeoMashupCustom' ) .
+                $this->warnings .= __( 'Custom files can be stored safely in this plugin folder, but will only be used by versions of Geo Mashup later than 1.2.4.', 'GsxGeoMashupCustom' ) .
                     '<br/>';
             }
             $this->found_files = get_option( 'geo_mashup_custom_found_files' );
             if ( empty( $this->found_files ) ) {
-                $this->found_files = $this->rescue_files();
+                $this->found_files = $this->gsx_rescue_files();
                 update_option( 'geo_mashup_custom_found_files', $this->found_files );
             }
         }
@@ -63,7 +63,7 @@ class GeoMashupCustom {
     /**
      * Rescue known custom files from the Geo Mashup folder.
      */
-    function rescue_files() {
+    function gsx_rescue_files() {
         $results = array( 'ok' => array(), 'failed' => array() );
         $check_files = array( 'custom.js', 'map-style-default.css', 'info-window.php', 'full-post.php', 'user.php', 'comment.php' );
         foreach( $check_files as $file ) {
@@ -91,7 +91,7 @@ class GeoMashupCustom {
      */
     /*function after_plugin_row( $plugin_data = null, $context = '' ) {
         if ( !empty( $_GET['geo_mashup_custom_list'] ) ) {
-            echo '<tr><td colspan="5">' . __( 'Current custom files: ', 'GeoMashupCustom') .
+            echo '<tr><td colspan="5">' . __( 'Current custom files: ', 'GsxGeoMashupCustom') .
                 implode( ', ', array_keys( $this->files ) ) . '</td></tr>';
         }
         if ( !empty( $this->warnings ) ) {
@@ -105,7 +105,7 @@ class GeoMashupCustom {
      * @param string $file The custom file to check for.
      * @return URL or false if the file is not found.
      */
-    function file_url( $file ) {
+    function gsx_file_url( $file ) {
         $url = false;
         if ( isset( $this->files[$file] ) ) {
             $url = $this->files[$file];
@@ -116,7 +116,7 @@ class GeoMashupCustom {
 } // end Geo Mashup Custom class
 
 // Instantiate
-$geo_mashup_custom = new GeoMashupCustom();
+$geo_mashup_custom = new GsxGeoMashupCustom();
 
 } // end if Geo Mashup Custom class exists
 

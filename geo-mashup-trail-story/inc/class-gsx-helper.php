@@ -90,7 +90,7 @@ public function thickbox_content(){  ?></pre>
 }
 
 $helper = new GsxHelper();*/
-add_action('media_buttons','add_sc_select',11);
+add_action('media_buttons','gsx_add_sc_select',11);
 
 add_action('admin_enqueue_scripts', 'gsx_fa');
 
@@ -98,7 +98,7 @@ function gsx_fa() {
 	wp_register_style( 'gsx_fa', plugins_url( 'font-awesome-4.4.0/css/font-awesome.css', __FILE__ ));
     wp_enqueue_style( 'gsx_fa' );
 }
-function add_sc_select(){
+function gsx_add_sc_select(){
     //global $shortcode_tags;
 	$shortcode_tags = array('geo_mashup_map', 'geo_mashup_category_legend', 
 		'geo_mashup_term_legend', 'frontend_trail_story_map');
@@ -116,8 +116,8 @@ Add Map</a><select id="sc_select"><option>Shortcode</option>';
      echo $shortcodes_list;
      echo '</select>';
 }
-add_action('admin_head', 'button_js');
-function button_js() {
+add_action('admin_head', 'gsx_button_js');
+function gsx_button_js() {
         echo '<script type="text/javascript">
         jQuery(document).ready(function(){
         	jQuery("#")

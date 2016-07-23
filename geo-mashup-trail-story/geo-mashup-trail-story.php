@@ -71,7 +71,7 @@ function trail_story_filter_geo_mashup_load_user_editor( $enabled ) {
  * @param post $post The post object.
  * @param bool $update Whether this is an existing post being updated or not.
  */
-function save_geopost_meta( $post_id, $post, $update ) {
+function gsx_save_geopost_meta( $post_id, $post, $update ) {
 
     /*
      * In production code, $slug should be set only once in the plugin,
@@ -101,4 +101,4 @@ function save_geopost_meta( $post_id, $post, $update ) {
 
 
 }
-add_action( 'save_post', 'save_geopost_meta', 10, 3 );
+add_action( 'save_post', 'gsx_save_geopost_meta', 10, 3 );

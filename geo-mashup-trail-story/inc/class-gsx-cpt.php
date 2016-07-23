@@ -12,7 +12,7 @@ public function __construct()
   //  add_action( 'admin_init', array( $this, 'gsx_map_page' ) );
     add_action( 'init', array($this, 'register_cpt_geocms_pro' ));
     add_action( 'init', array($this, 'register_txn_geocms_pro' ));
-    add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+    add_action( 'gsx_add_meta_boxes', array( $this, 'gsx_add_meta_box' ) );
     add_action( 'save_post',      array( $this, 'save'         ) );
 
 
@@ -118,15 +118,15 @@ public function register_txn_geocms_pro() {
 /**
      * Adds the meta box container.
      */
-    public function add_meta_box( $post_type ) {
+    public function gsx_add_meta_box( $post_type ) {
         // Limit meta box to certain post types.
         $post_types = array( 'geopost' );
  
         if ( in_array( $post_type, $post_types ) ) {
-            add_meta_box(
+            gsx_add_meta_box(
                 '_geopost_location',
                 __( 'Location', 'textdomain' ),
-                array( $this, 'render_meta_box_content' ),
+                array( $this, 'gsx_render_meta_box_content' ),
                 $post_type,
                 'advanced',
                 'high'
@@ -139,7 +139,7 @@ public function register_txn_geocms_pro() {
      *
      * @param int $post_id The ID of the post being saved.
      */
-    public function save( $post_id ) {
+    public function gsx_save( $post_id ) {
  
         /*
          * We need to verify this came from the our screen and with proper authorization,
@@ -192,7 +192,7 @@ public function register_txn_geocms_pro() {
      *
      * @param WP_Post $post The post object.
      */
-    public function render_meta_box_content( $post ) {
+    public function gsx_render_meta_box_content( $post ) {
  
         // Add an nonce field so we can check for it later.
         wp_nonce_field( 'geopost_location_cb', 'geopost_location_cb_nonce' );

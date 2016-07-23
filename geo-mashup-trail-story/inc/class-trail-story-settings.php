@@ -5,9 +5,9 @@ interface iTrailStorySettings {
     public function __construct();
     public function add_trail_story_menu_page();
     public function create_trail_story_menu_page();
-    public function page_init();
-    public function sanitize( $input );
-    public function print_option_info();
+    public function gsx_page_init();
+    public function gsx_sanitize( $input );
+    public function gsx_print_option_info();
     public function trail_story_option_callback();
 
 }
@@ -25,7 +25,7 @@ class TrailStorySettings {
     public function __construct()
     {
         add_action( 'admin_menu', array( $this, 'add_trail_story_menu_page' ) );
-        add_action( 'admin_init', array( $this, 'page_init' ) );
+        add_action( 'admin_init', array( $this, 'gsx_page_init' ) );
     }
     /**
      * Add options page
@@ -44,7 +44,7 @@ class TrailStorySettings {
             array( $this, 'create_trail_story_menu_page' ));
         
      
-        ///add_filter( 'add_menu_classes', array( $this, 'add_target_to_links') );
+        ///add_filter( 'add_menu_classes', array( $this, 'gsx_add_target_to_links') );
         add_filter( 'add_menu_classes', array( $this, 'show_pending_geocms') );
 
        // add_filter( 'add_menu_classes', array( $this, 'show_pending_number_trail_segment') );
@@ -52,7 +52,7 @@ class TrailStorySettings {
         
     }
     
-    public function add_target_to_links($menu) {
+    public function gsx_add_target_to_links($menu) {
         
         // loop through $menu items, find match, add indicator
         foreach( $menu as $menu_key => $menu_data ) {
@@ -116,18 +116,18 @@ class TrailStorySettings {
     /**
      * Register and add settings
      */
-    public function page_init() {
+    public function gsx_page_init() {
         global $geo_mashup_options;
         register_setting(
             'trail_story_options_group', // Option group
             'trail_story_options', // Option name
-            array( $this, 'sanitize' ) // Sanitize
+            array( $this, 'gsx_sanitize' ) // gsx_sanitize
         );
 
         add_settings_section(
             'trail_story_options_section', // ID
             '', // Title
-            array( $this, 'print_option_info' ), // Callback
+            array( $this, 'gsx_print_option_info' ), // Callback
             'trail-story-options-admin' // Page
         );
 
@@ -142,11 +142,11 @@ class TrailStorySettings {
        
     }
     /**
-     * Sanitize each setting field as needed
+     * gsx_sanitize each setting field as needed
      *
      * @param array $input Contains all settings fields as array keys
      */
-    public function sanitize( $input ) {
+    public function gsx_sanitize( $input ) {
         $new_input = array();
     
         return $input;
@@ -158,7 +158,7 @@ class TrailStorySettings {
       /**
      * Print the Section text
      */
-    public function print_option_info() { ?>
+    public function gsx_print_option_info() { ?>
         <div id="plugin-info-header" class="plugin-info header">
             <div class="plugin-info content">
                 
