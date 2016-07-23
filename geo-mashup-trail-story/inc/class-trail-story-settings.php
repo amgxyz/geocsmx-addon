@@ -2,13 +2,7 @@
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
 interface iTrailStorySettings {
-    public function __construct();
-    public function add_trail_story_menu_page();
-    public function create_trail_story_menu_page();
-    public function gsx_page_init();
-    public function gsx_sanitize( $input );
-    public function gsx_print_option_info();
-    public function trail_story_option_callback();
+ 
 
 }
 /**

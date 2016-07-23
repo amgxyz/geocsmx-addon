@@ -17,11 +17,19 @@ require_once( 'geo-mashup-custom/geo-mashup-custom.php' );
 register_activation_hook( __FILE__, 'gsx_require_geomashup') ;
 
 function gsx_require_geomashup() {
-      if (! is_plugin_active( 'geo-mashup/geo-mashup.php') ) {
-        deactivate_plugins(plugin_basename(__FILE__));
+    if ( is_admin() && current_user_can( 'activate_plugins' ) &&  !is_plugin_active( 'geo-mashup/geo-mashup.php' ) ) {
+        add_action( 'admin_notices', 'gsx_add_on_plugin_notice' );
 
-        die('Geo Mashup is required for this plugin!');
+        deactivate_plugins( plugin_basename( __FILE__ ) );
 
-      }
-  }
+        if ( isset( $_GET['activate'] ) ) {
+            unset( $_GET['activate'] );
+        }
+    } else {
+    	flush_rewrite_rules();
+    }
+}
+function gsx_add_on_plugin_notice() {
+	echo '<div class="error"><p><strong>Geo Mashup</strong> must be installed and activated to use this plugin!</p></div>';
+}
 
